@@ -3,22 +3,18 @@
 class router {
 
     private static $place = array();
-
+   
     public static function route($get) {
         foreach (router::read() as $mask) {
             if (router::match($get, $mask)) {
                 $controller = router::assignController($mask);
-                self::$place = array_unique(self::$place);
-                $controller = router::assignParams($get, $controller);
-
-                return $controller;
+                return router::assignParams($get, $controller);
             }
         }
     }
 
     private static function read() {
-        $file = explode("\n", file_get_contents('routes.txt'));
-        return $file;
+        return explode("\n", file_get_contents('routes.txt'));
     }
 
     private static function match($get, $mask) {
@@ -29,13 +25,17 @@ class router {
             $places = array();
 
             foreach ($pathArr as $key => $value) {
-                if (preg_match("/.\d/", $value)) {
+                if (strpos($value, '.') === 0) {
                     $getArr[$key] = $value;
-                    self::$place[] = $key;
+                    self::$place[substr($value, 1)] = $key;
                 }
             }
 
-            return $pathArr === $getArr;
+            if ($pathArr === $getArr) {
+                return true;
+            } else {
+                self::$place = array();
+            }
         } elseif ($get == trim($mask)) {
             return true;
         }
@@ -57,8 +57,8 @@ class router {
 
             $getArr = explode('/', $get);
 
-            foreach (self::$place as $place) {
-                $controller['params'][] = $getArr[$place];
+            foreach (self::$place as $key => $place) {
+                $controller['params'][$key] = $getArr[$place];
             }
         }
         return $controller;
