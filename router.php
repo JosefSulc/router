@@ -30,7 +30,7 @@ class router {
             foreach ($pathArr as $key => $value) {
                 if (preg_match("/.\d/", $value)) {
                     $getArr[$key] = $value;
-                    self::$place = $key;
+                    self::$place[] = $key;
                 }
             }
 
