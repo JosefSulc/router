@@ -22,8 +22,9 @@ class router {
     }
 
     private static function match($get, $mask) {
+        $mask = preg_replace("/\|.*/", '', $mask);
         if (strpos($mask, '.')) {
-            $pathArr = explode('/', preg_replace("/\|.*/", '', $mask));
+            $pathArr = explode('/', $mask);
             $getArr = explode('/', $get);
             $places = array();
 
@@ -35,7 +36,7 @@ class router {
             }
 
             return $pathArr === $getArr;
-        } elseif ($get == trim(preg_replace("/\|.*/", '', $mask))) {
+        } elseif ($get == trim($mask)) {
             return true;
         }
     }
@@ -64,5 +65,3 @@ class router {
     }
 
 }
-
-print_r(router::route('hue/kai/ser'));
