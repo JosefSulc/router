@@ -2,8 +2,9 @@
 
 class router {
 
+    public static $path = 'routes.txt';
     private static $place = array();
-   
+
     public static function route($get) {
         foreach (router::read() as $mask) {
             if (router::match($get, $mask)) {
@@ -14,15 +15,15 @@ class router {
     }
 
     private static function read() {
-        return explode("\n", file_get_contents('routes.txt'));
+        return explode("\n", file_get_contents(self::$path));
     }
 
     private static function match($get, $mask) {
-        $mask = preg_replace("/\|.*/", '', $mask);
+        $mask = trim(preg_replace("/\|.*/", '', $mask));
         if (strpos($mask, '.')) {
             $pathArr = explode('/', $mask);
             $getArr = explode('/', $get);
-            $places = array();
+
 
             foreach ($pathArr as $key => $value) {
                 if (strpos($value, '.') === 0) {

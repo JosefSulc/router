@@ -1,4 +1,4 @@
-index 		|			controller=>home, method=>index
+ 		|			controller=>home, method=>index
 index/hello/.0  |			controller=>home, method=>hello
-dashboard/.0	|			controller=>dashboard, method=>home
+dashboard/.name	|			controller=>dashboard, method=>home
 hue/.name/.surname       |                       controller=>hue, method=>home
